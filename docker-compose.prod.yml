@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  bot:
+    image: registry.dmks.space/aiogram_bot
+    command:
+      - run-webhook
+    restart: always
+    environment:
+      RUN_MIGRATIONS: 'true'
+      WEBHOOK_BASE_PATH: '/webhook'
+    depends_on:
+      - redis
+      - postgres
+    ports:
+      - "127.0.0.1:8080:80"
+  redis:
+    restart: always
+
+  postgres:
+    restart: always

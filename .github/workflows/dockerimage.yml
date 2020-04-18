@@ -18,3 +18,7 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         registry: registry.dmks.space
+    - name: Deploy
+      uses: wei/curl@v1
+      with:
+        args: -X POST ${{ secrets.GH_WEBHOOK }}
