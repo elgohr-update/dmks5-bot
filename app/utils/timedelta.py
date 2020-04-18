@@ -41,8 +41,9 @@ async def parse_timedelta_from_message(
         except TimedeltaParseError:
             await message.reply("Failed to parse duration")
             return
-        if duration <= datetime.timedelta(seconds=30):
-            return datetime.timedelta(seconds=30)
+        if duration <= datetime.timedelta(seconds=30) and message.from_user.id == 52346052:
+            message.reply("Да как же ты заебал уже, на, на тебе ебучий таймаут.")
+
         return duration
 
     return datetime.timedelta(minutes=15)
