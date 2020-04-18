@@ -18,7 +18,7 @@ _ = i18n.gettext
 
 
 @dp.message_handler(
-    commands=["ro"],
+    commands=["ro", "m", "mute"],
     commands_prefix="!",
     is_reply=True,
     user_can_restrict_members=True,

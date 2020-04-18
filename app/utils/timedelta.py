@@ -1,11 +1,7 @@
 import datetime
-import re
 import typing
 
 from aiogram import types
-
-PATTERN = re.compile(r"(?P<value>\d+)(?P<modifier>[wdhms])")
-LINE_PATTERN = re.compile(r"^(\d+[wdhms]){1,}$")
 
 MODIFIERS = {
     "w": datetime.timedelta(weeks=1),
@@ -21,18 +17,15 @@ class TimedeltaParseError(Exception):
 
 
 def parse_timedelta(value: str) -> datetime.timedelta:
-    match = LINE_PATTERN.match(value)
-    if not match:
-        raise TimedeltaParseError("Invalid time format")
-
     try:
+        value, modifier = value[:-1], value[-1:]
         result = datetime.timedelta()
-        for match in PATTERN.finditer(value):
-            value, modifier = match.groups()
 
-            result += int(value) * MODIFIERS[modifier]
+        result += int(value) * MODIFIERS[modifier]
     except OverflowError:
         raise TimedeltaParseError("Timedelta value is too large")
+    except (KeyError, ValueError):
+        raise TimedeltaParseError("Wrong format")
 
     return result
 
@@ -51,5 +44,5 @@ async def parse_timedelta_from_message(
         if duration <= datetime.timedelta(seconds=30):
             return datetime.timedelta(seconds=30)
         return duration
-    else:
-        return datetime.timedelta(minutes=15)
+
+    return datetime.timedelta(minutes=15)
