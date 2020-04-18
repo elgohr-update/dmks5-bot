@@ -13,12 +13,8 @@ jobs:
     - name: Build and publish
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: aiogram/bot:latest
-        tag: docker.illemius.xyz/aiogram/bot/app:latest
+        name: aiogram_bot:latest
+        tag: registry.dmks.space/aiogram_bot:latest
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        registry: docker.illemius.xyz
-    - name: Deploy
-      uses: wei/curl@v1
-      with:
-        args: -X POST ${{ secrets.ILLEMIUS_WEBHOOK_URL }}
+        registry: registry.dmks.space
