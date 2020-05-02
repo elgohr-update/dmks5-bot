@@ -26,7 +26,6 @@ def parse_timedelta(value: str) -> datetime.timedelta:
         raise TimedeltaParseError("Invalid time format")
 
     try:
-        value, modifier = value[:-1], value[-1:]
         result = datetime.timedelta()
         for match in PATTERN.finditer(value):
             value, modifier = match.groups()
