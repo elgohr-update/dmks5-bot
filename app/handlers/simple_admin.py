@@ -43,7 +43,7 @@ async def cmd_ro(message: types.Message, chat: Chat):
 )
 async def cmd_rr(message: types.Message, chat: Chat):
     other_weights = 21 * [0.02]
-    duration = choices(range(0, 24), weights=[0.1, 0.38, 0.1, *other_weights])[0] + randint(0, 3600)
+    duration = choices(range(0, 24), weights=[0.1, 0.38, 0.1, *other_weights])[0]*3600 + randint(0, 3600)
 
     return await apply_restriction(message, chat, duration)
 
