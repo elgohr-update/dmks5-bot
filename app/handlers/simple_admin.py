@@ -49,6 +49,30 @@ async def cmd_rr(message: types.Message, chat: Chat):
 
 
 @dp.message_handler(
+    commands=["u", "unmute"],
+    commands_prefix="!",
+    is_reply=True,
+    user_can_restrict_members=True,
+    bot_can_restrict_members=True,
+)
+async def cmd_rr(message: types.Message, chat: Chat):
+    try:  # Apply restriction
+        await message.chat.restrict(
+            message.reply_to_message.from_user.id, can_send_messages=True
+        )
+        logger.info(
+            "User {user} was unrestricted",
+            user=message.reply_to_message.from_user.id,
+            admin=message.from_user.id,
+        )
+    except exceptions.BadRequest as e:
+        logger.error("Failed to free chat member: {error!r}", error=e)
+        return False
+
+    return True
+
+
+@dp.message_handler(
     commands=["ban"],
     commands_prefix="!",
     is_reply=True,
