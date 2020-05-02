@@ -69,6 +69,12 @@ async def cmd_unmute(message: types.Message, chat: Chat):
         logger.error("Failed to free chat member: {error!r}", error=e)
         return False
 
+    await message.reply_to_message.answer(
+        _("{user} unrestricted").format(
+            user=message.reply_to_message.from_user.get_mention(),
+        )
+    )
+
     return True
 
 
