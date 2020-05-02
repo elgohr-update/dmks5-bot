@@ -1,5 +1,6 @@
 import asyncio
 from contextlib import suppress
+from random import choices, randint
 from typing import List
 
 from aiogram import types
@@ -12,6 +13,7 @@ from loguru import logger
 from app.misc import bot, dp, i18n
 from app.models.chat import Chat
 from app.models.user import User
+from app.utils.functions import apply_restriction
 from app.utils.timedelta import parse_timedelta_from_message
 
 _ = i18n.gettext
@@ -29,29 +31,21 @@ async def cmd_ro(message: types.Message, chat: Chat):
     if not duration:
         return
 
-    try:  # Apply restriction
-        await message.chat.restrict(
-            message.reply_to_message.from_user.id, can_send_messages=False, until_date=duration
-        )
-        logger.info(
-            "User {user} restricted by {admin} for {duration}",
-            user=message.reply_to_message.from_user.id,
-            admin=message.from_user.id,
-            duration=duration,
-        )
-    except exceptions.BadRequest as e:
-        logger.error("Failed to restrict chat member: {error!r}", error=e)
-        return False
+    return await apply_restriction(message, chat, duration)
 
-    await message.reply_to_message.answer(
-        _("<b>Read-only</b> activated for user {user}. Duration: {duration}").format(
-            user=message.reply_to_message.from_user.get_mention(),
-            duration=format_timedelta(
-                duration, locale=chat.language, granularity="seconds", format="short"
-            ),
-        )
-    )
-    return True
+
+@dp.message_handler(
+    commands=["rr", "roulette"],
+    commands_prefix="!",
+    is_reply=True,
+    user_can_restrict_members=True,
+    bot_can_restrict_members=True,
+)
+async def cmd_rr(message: types.Message, chat: Chat):
+    other_weights = 21 * [0.02]
+    duration = choices(range(0, 24), weights=[0.1, 0.38, 0.1, *other_weights])[0] + randint(0, 3600)
+
+    return await apply_restriction(message, chat, duration)
 
 
 @dp.message_handler(
@@ -125,7 +119,7 @@ async def text_report_admins(message: types.Message):
     ]
     if admin_ids:
         for admin in await User.query.where(
-            User.id.in_(admin_ids) & (User.do_not_disturb == False)
+                User.id.in_(admin_ids) & (User.do_not_disturb == False)
         ).gino.all():  # NOQA
             with suppress(Unauthorized):
                 await bot.send_message(admin.id, text)
