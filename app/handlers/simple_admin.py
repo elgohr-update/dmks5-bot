@@ -58,7 +58,11 @@ async def cmd_rr(message: types.Message, chat: Chat):
 async def cmd_unmute(message: types.Message, chat: Chat):
     try:  # Apply restriction
         await message.chat.restrict(
-            message.reply_to_message.from_user.id, can_send_messages=True
+            message.reply_to_message.from_user.id,
+            can_send_messages=True,
+            can_send_media_messages=True,
+            can_send_other_messages=True,
+            can_add_web_page_previews=True
         )
         logger.info(
             "User {user} was unrestricted",
