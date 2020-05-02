@@ -35,7 +35,7 @@ async def cmd_ro(message: types.Message, chat: Chat):
 
 
 @dp.message_handler(
-    commands=["rr", "roulette"],
+    commands=["rr", "roulette", "кк"],
     commands_prefix="!",
     is_reply=True,
     user_can_restrict_members=True,
