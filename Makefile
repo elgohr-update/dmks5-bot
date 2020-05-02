@@ -6,7 +6,7 @@ PYTHONPATH := $(shell pwd):${PYTHONPATH}
 PROJECT := aiogram_bot
 LOCALES_DOMAIN := bot
 LOCALES_DIR := locales
-VERSION := 0.1
+VERSION := 0.2
 PIPENV_VERBOSITY := -1
 
 # =================================================================================================
