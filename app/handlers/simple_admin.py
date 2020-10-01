@@ -14,7 +14,7 @@ from app.misc import bot, dp, i18n
 from app.models.chat import Chat
 from app.models.user import User
 from app.utils.functions import apply_restriction
-from app.utils.timedelta import parse_timedelta_from_message
+from app.utils.timedelta import parse_timedelta_from_message, parse_timedelta
 
 _ = i18n.gettext
 
@@ -45,7 +45,7 @@ async def cmd_rr(message: types.Message, chat: Chat):
     other_weights = 21 * [0.02]
     duration_seconds = choices(range(0, 24), weights=[0.1, 0.38, 0.1, *other_weights])[0]*3600 + randint(0, 3600)
     
-    duration_td = await parse_timedelta_from_message(f'{duration_seconds}s')
+    duration_td = await parse_timedelta(f'{duration_seconds}s')
     if duration_td:
         return await apply_restriction(message, chat, duration_td)
 
