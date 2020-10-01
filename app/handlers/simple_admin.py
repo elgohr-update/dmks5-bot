@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 from contextlib import suppress
 from random import choices, randint
 from typing import List
@@ -43,11 +44,10 @@ async def cmd_ro(message: types.Message, chat: Chat):
 )
 async def cmd_rr(message: types.Message, chat: Chat):
     other_weights = 21 * [0.02]
-    duration_seconds = choices(range(0, 24), weights=[0.1, 0.38, 0.1, *other_weights])[0]*3600 + randint(0, 3600)
+    duration = choices(range(0, 24), weights=[0.1, 0.38, 0.1, *other_weights])[0]*3600 + randint(0, 3600)
     
-    duration_td = await parse_timedelta(f'{duration_seconds}s')
-    if duration_td:
-        return await apply_restriction(message, chat, duration_td)
+    if duration:
+        return await apply_restriction(message, chat, datetime.timedelta(seconds=duration))
 
 
 @dp.message_handler(
