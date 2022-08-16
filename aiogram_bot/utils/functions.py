@@ -6,8 +6,8 @@ from loguru import logger
 from aiogram.utils import exceptions
 from aiogram import types
 
-from app.misc import i18n
-from app.models.chat import Chat
+from aiogram_bot.misc import i18n
+from aiogram_bot.models.chat import Chat
 
 _ = i18n.gettext
 
