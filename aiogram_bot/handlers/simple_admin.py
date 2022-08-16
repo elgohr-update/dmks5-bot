@@ -1,12 +1,9 @@
 import asyncio
 import datetime
 from contextlib import suppress
-<<<<<<< HEAD:app/handlers/simple_admin.py
 from random import choices, randint
 from typing import List
-=======
 from typing import List, Optional
->>>>>>> upstream/master:aiogram_bot/handlers/simple_admin.py
 
 from aiogram import types
 from aiogram.utils import exceptions
@@ -17,26 +14,15 @@ from loguru import logger
 from magic_filter import F
 from sqlalchemy.dialects.postgresql import insert
 
-<<<<<<< HEAD:app/handlers/simple_admin.py
-from app.misc import bot, dp, i18n
-from app.models.chat import Chat
-from app.models.user import User
-from app.utils.functions import apply_restriction
-from app.utils.timedelta import parse_timedelta_from_message, parse_timedelta
-=======
 from aiogram_bot.misc import bot, dp, i18n
 from aiogram_bot.models.chat import Chat, ChatAllowedChannels
 from aiogram_bot.models.user import User
 from aiogram_bot.utils.timedelta import parse_timedelta_from_message
->>>>>>> upstream/master:aiogram_bot/handlers/simple_admin.py
 
 _ = i18n.gettext
 
 
 @dp.message_handler(
-<<<<<<< HEAD:app/handlers/simple_admin.py
-    commands=["ro", "m", "mute"],
-=======
     F.ilter(F.reply_to_message.sender_chat),
     commands=["ro", "ban"],
     commands_prefix="!",
@@ -77,7 +63,6 @@ async def command_ban_sender_chat(message: types.Message, target: Optional[types
 @dp.message_handler(
     F.ilter(F.reply_to_message),
     commands=["ro"],
->>>>>>> upstream/master:aiogram_bot/handlers/simple_admin.py
     commands_prefix="!",
     user_can_restrict_members=True,
     bot_can_restrict_members=True,
@@ -142,7 +127,7 @@ async def cmd_unmute(message: types.Message, chat: Chat):
 
 @dp.message_handler(
     F.ilter(F.reply_to_message),
-    commands=["ban"],
+    commands=["ban", "b"],
     commands_prefix="!",
     user_can_restrict_members=True,
     bot_can_restrict_members=True,
@@ -221,11 +206,7 @@ async def text_report_admins(message: types.Message):
     ]
     if admin_ids:
         for admin in await User.query.where(
-<<<<<<< HEAD:app/handlers/simple_admin.py
-                User.id.in_(admin_ids) & (User.do_not_disturb == False)
-=======
             User.id.in_(admin_ids) & (User.do_not_disturb == False)  # NOQA
->>>>>>> upstream/master:aiogram_bot/handlers/simple_admin.py
         ).gino.all():  # NOQA
             with suppress(Unauthorized):
                 await bot.send_message(admin.id, text)
