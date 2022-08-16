@@ -10,6 +10,7 @@ from aiogram.utils import exceptions
 from aiogram.utils.exceptions import BadRequest, Unauthorized
 from aiogram.utils.markdown import hlink, quote_html
 from babel.dates import format_timedelta
+from aiogram_bot.utils.functions import apply_restriction
 from loguru import logger
 from magic_filter import F
 from sqlalchemy.dialects.postgresql import insert
