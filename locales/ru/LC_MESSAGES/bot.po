@@ -148,11 +148,11 @@ msgstr "Я животное"
 
 #: aiogram_bot/handlers/new_chat_members.py:75
 msgid "I'm spammer"
-msgstr "Я палуница"
+msgstr "Я спамер"
 
 #: aiogram_bot/handlers/new_chat_members.py:78
 msgid "I'm scammer"
-msgstr "Я русский корабль"
+msgstr "Я скамер"
 
 #: aiogram_bot/handlers/new_chat_members.py:84
 msgid "I'm human"
