@@ -12,7 +12,7 @@ WORKDIR /app
 RUN set +x \
  && apt update \
  && apt install -y curl \
- && curl -sSL hhttps://install.python-poetry.org/ | POETRY_HOME=/opt/poetry python \
+ && curl -sSL https://install.python-poetry.org/ | POETRY_HOME=/opt/poetry python \
  && cd /usr/local/bin \
  && ln -s /opt/poetry/bin/poetry \
  && poetry config virtualenvs.create false \
