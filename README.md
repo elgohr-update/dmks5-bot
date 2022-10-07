@@ -77,18 +77,3 @@ Pre-requirements:
 
 ...
 
-### How this bot is deployed now?
-
-In Docker Swarm at [Illemius](https://illemius.xyz) with CI/CD
-
-Steps:
-1. GitHub Actions:
-    1. Build docker image
-    1. Publish it to the private **Illemius** Docker registry
-    1. Trigger Portainer webhook in the **Illemius** cluster via cURL
-1. Portainer will trigger updating of the bot service
-1. Docker run new instance of container at specified node
-    1. When container is started by first step it will run migrations
-1. Docker wait until new instance will be healthy
-1. Traefik watch Docker container and update the routes when new one is available
-1. Stop old instance of Bot container
